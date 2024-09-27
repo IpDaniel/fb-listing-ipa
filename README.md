@@ -1,4 +1,4 @@
-# Data Extraction, Formatting, and Uploading System
+# Data Extraction, Formatting, and Uploading System for Organic Social Media Marketing
 
 This project implements a highly flexible data management system that can connect to a PostgreSQL database, execute queries, format the results, and upload the formatted data to various destinations.
 
