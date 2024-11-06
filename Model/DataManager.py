@@ -1,7 +1,5 @@
 import csv
 from Model.Connection import Connection
-from Model.Formatter import JSONFormatter
-from Model.Uploader import FileUploader
 
 class DataManager:
     def __init__(self, name="unnamed", query="", postgres_credentials=None, 
@@ -10,8 +8,8 @@ class DataManager:
         self.query = query
         self.postgres_credentials = postgres_credentials or {}
         self.connection = connection or Connection(self.postgres_credentials, self.query)
-        self.formatter = formatter or JSONFormatter()
-        self.uploader = uploader or FileUploader("", "output.txt")
+        self.formatter = formatter
+        self.uploader = uploader
         self.headers = headers
 
     def process_data(self):
