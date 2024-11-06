@@ -1,12 +1,9 @@
-# This file is used to connect to the postgres database. It will have a Connection class with a 
-# method to connect to the database and a method to close the connection. It will also have a 
-# Dictionary to store the connection details. The dicionary wil be only one field of the class.
-
+from ..Base.Connection import Connection
 import psycopg2
 import datetime
 import csv
 
-class Connection:
+class DatabaseConnection(Connection):
     def __init__(self, credentials, query):
         self.dbname = credentials['dbname']
         self.user = credentials['user']
@@ -45,5 +42,3 @@ class Connection:
             csv_writer = csv.writer(csv_file)
             csv_writer.writerow(['Connection Start Time', 'Connection End Time', 'Connection Duration', 'Query'])
             csv_writer.writerow([self.connectionStartTime, self.connectionEndTime, self.connectionDuration, self.query])
-
-
