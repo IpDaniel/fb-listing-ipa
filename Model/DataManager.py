@@ -1,5 +1,5 @@
 import csv
-from Model.Connection import Connection
+from DataPipelines.Base.Connection import Connection
 
 class DataManager:
     def __init__(self, name="unnamed", query="", postgres_credentials=None, 
