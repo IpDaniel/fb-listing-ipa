@@ -38,8 +38,8 @@ class FacebookSeleniumUploader(Uploader):
             self.driver.get(f"https://www.facebook.com/groups/{group_id}")
             sleep(self.default_action_delay)
 
-            raise NotImplementedError("check here if the group is private and the user has not joined it")
-            raise NotImplementedError("check here if the user has been banned from the group")
+            # raise NotImplementedError("check here if the group is private and the user has not joined it")
+            # raise NotImplementedError("check here if the user has been banned from the group")
 
             if text_only:
                 # Find the "Write something..." button to create a text-only post
@@ -78,7 +78,7 @@ class FacebookSeleniumUploader(Uploader):
                     raise e
                 sleep(self.default_action_delay)
 
-                raise NotImplementedError("Make sure to check here if the post was successful, or if it has to get approved")
+                # raise NotImplementedError("Make sure to check here if the post was successful, or if it has to get approved")
             
                 occurences.append(f"posted write-only post {post_data['text']}")
                 return True, occurences
@@ -156,60 +156,60 @@ class FacebookSeleniumUploader(Uploader):
 
    
 
-    class SeleniumSessionBuilder:
-        def __init__(self):
-            self.headless = False
-            self.driver = None
-            self.default_action_delay = 1
-            self.disable_notifications = True
-            self.home_url = "https://www.facebook.com"
-            self.formatted_data = None
+class SeleniumSessionBuilder:
+    def __init__(self):
+        self.headless = False
+        self.driver = None
+        self.default_action_delay = 1
+        self.disable_notifications = True
+        self.home_url = "https://www.facebook.com"
+        self.formatted_data = None
 
-        def set_formatted_data(self, formatted_data):
-            self.formatted_data = formatted_data
-            return self
-            
-        def set_headless(self):
-            self.headless = True
-            return self
+    def set_formatted_data(self, formatted_data):
+        self.formatted_data = formatted_data
+        return self
         
-        def unset_headless(self):
-            self.headless = False
-            return self
-            
-        def set_default_action_delay(self, delay):
-            self.default_action_delay = delay
-            return self
-            
-        def set_notifications(self, enabled):
-            self.disable_notifications = not enabled
-            return self
+    def set_headless(self):
+        self.headless = True
+        return self
+    
+    def unset_headless(self):
+        self.headless = False
+        return self
         
-        def unset_notifications(self):
-            self.disable_notifications = False
-            return self
-            
-        def set_home_url(self, url):
-            self.home_url = url
-            return self
+    def set_default_action_delay(self, delay):
+        self.default_action_delay = delay
+        return self
         
-        def build(self):
-            if self.formatted_data is None:
-                raise ValueError("Formatted data not set")
+    def set_notifications(self, enabled):
+        self.disable_notifications = not enabled
+        return self
+    
+    def unset_notifications(self):
+        self.disable_notifications = False
+        return self
+        
+    def set_home_url(self, url):
+        self.home_url = url
+        return self
+    
+    def build(self):
+        if self.formatted_data is None:
+            raise ValueError("Formatted data not set")
 
-            options = webdriver.ChromeOptions()
+        options = webdriver.ChromeOptions()
+        
+        if self.headless:
+            options.add_argument('--headless')
             
-            if self.headless:
-                options.add_argument('--headless')
-                
-            if self.disable_notifications:
-                options.add_argument('--disable-notifications')
-                
-            options.add_argument('--no-sandbox')
-            options.add_argument('--disable-dev-shm-usage')
-            options.add_argument('--disable-gpu')
+        if self.disable_notifications:
+            options.add_argument('--disable-notifications')
             
-            self.driver = webdriver.Chrome(options=options)
-            self.driver.get(self.home_url)
-            
-            return FacebookSeleniumUploader(self.driver, self.formatted_data, self.default_action_delay)
+        options.add_argument('--no-sandbox')
+        options.add_argument('--disable-dev-shm-usage')
+        options.add_argument('--disable-gpu')
+        
+        self.driver = webdriver.Chrome(options=options)
+        self.driver.get(self.home_url)
+        
+        return FacebookSeleniumUploader(self.driver, self.formatted_data, self.default_action_delay)
